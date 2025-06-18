@@ -1,25 +1,27 @@
-import { createContext, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from "react";
 
-export interface Appointment {
-  id: number;
-  day: string;
-  time: string;
-  patientId: number;
-  doctorId: number;
-  treatmentId: number;
-}
+const CalendarContext = createContext<any>(null);
 
-interface CalendarContextType {
-  appointments: Appointment[];
-  setAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
-}
+export function CalendarProvider({ children }: { children: ReactNode }) {
+  const [someValue, setSomeValue] = useState(() => {
+    // Only use localStorage in the browser
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("key") || "default";
+    }
+    return "default"; // Fallback for server-side
+  });
 
-export const CalendarContext = createContext<CalendarContextType | undefined>(undefined);
-
-export function CalendarProvider({ children, value }: { children: ReactNode; value: CalendarContextType }) {
   return (
-    <CalendarContext.Provider value={value}>
+    <CalendarContext.Provider value={{ someValue, setSomeValue }}>
       {children}
     </CalendarContext.Provider>
   );
+}
+
+export function useCalendar() {
+  const context = useContext(CalendarContext);
+  if (!context) {
+    throw new Error("useCalendar must be used within a CalendarProvider");
+  }
+  return context;
 }
