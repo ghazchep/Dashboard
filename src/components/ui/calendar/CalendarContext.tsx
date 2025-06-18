@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode } from 'react';
+import { createContext, ReactNode } from 'react';
 
 export interface Appointment {
   id: number;
