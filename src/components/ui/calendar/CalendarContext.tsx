@@ -1,15 +1,15 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-const CalendarContext = createContext<any>(null);
+// Define the context type
+interface CalendarContextType {
+  someValue: string;
+  setSomeValue: (value: string) => void;
+}
+
+export const CalendarContext = createContext<CalendarContextType | null>(null); // Export and type it
 
 export function CalendarProvider({ children }: { children: ReactNode }) {
-  const [someValue, setSomeValue] = useState(() => {
-    // Only use localStorage in the browser
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("key") || "default";
-    }
-    return "default"; // Fallback for server-side
-  });
+  const [someValue, setSomeValue] = useState("default");
 
   return (
     <CalendarContext.Provider value={{ someValue, setSomeValue }}>
