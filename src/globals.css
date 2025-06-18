@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.appointment-block {
+  @apply bg-indigo-600 text-white p-1 rounded text-sm;
+}
