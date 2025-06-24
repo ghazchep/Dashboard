@@ -1,4 +1,4 @@
-'use client';
+"use client"; // Ensure client-side rendering
 
 import { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
@@ -9,7 +9,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Appointment } from '@/components/ui/calendar/CalendarContext';
+// Import Appointment from AppointmentBlock where it’s defined
+import { Appointment } from '@/components/ui/calendar/AppointmentBlock';
 import { patients, doctors, treatments } from '@/lib/data/dummyData';
 
 interface AppointmentFormProps {

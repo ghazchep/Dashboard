@@ -1,18 +1,26 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+"use client";
 
-// Define the context type
+import { createContext, useContext, useState, ReactNode } from "react";
+import { Appointment } from "./AppointmentBlock";
+export type { Appointment } from "./AppointmentBlock";
+
 interface CalendarContextType {
-  someValue: string;
-  setSomeValue: (value: string) => void;
+  appointments: Appointment[];
+  setAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
 }
 
-export const CalendarContext = createContext<CalendarContextType | null>(null); // Export and type it
+export const CalendarContext = createContext<CalendarContextType | null>(null);
 
-export function CalendarProvider({ children }: { children: ReactNode }) {
-  const [someValue, setSomeValue] = useState("default");
+// Export CalendarProvider as a named export
+export function CalendarProvider({ children, value }: { children: React.ReactNode, value?: { appointments: Appointment[], setAppointments: React.Dispatch<React.SetStateAction<Appointment[]>> } }) {
+  const [internalAppointments, setInternalAppointments] = useState<Appointment[]>([
+    { id: 1, day: "Mon", time: "10:00", patientId: 1, doctorId: 1, treatmentId: 1 },
+  ]);
+  const appointments = value?.appointments ?? internalAppointments;
+  const setAppointments = value?.setAppointments ?? setInternalAppointments;
 
   return (
-    <CalendarContext.Provider value={{ someValue, setSomeValue }}>
+    <CalendarContext.Provider value={{ appointments, setAppointments }}>
       {children}
     </CalendarContext.Provider>
   );
